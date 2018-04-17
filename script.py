@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from scipy import stats
 import tensorflow as tf
 import datetime
@@ -76,6 +76,10 @@ def apply_max_pool(x,kernel_size,stride_size):
 
 print "Reading activity set @ ",datetime.datetime.now(), "This will take a while....	"
 dataset = read_data('actitracker_raw.txt')
+
+dataset.dropna(axis=0, how='any', inplace= True)
+dataset.drop_duplicates(['user-id','activity','timestamp', 'x-axis', 'y-axis', 'z-axis'], keep= 'first', inplace= True)
+
 dataset['x-axis'] = feature_normalize(dataset['x-axis'])
 dataset['y-axis'] = feature_normalize(dataset['y-axis'])
 dataset['z-axis'] = feature_normalize(dataset['z-axis'])
